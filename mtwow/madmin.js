@@ -129,8 +129,10 @@ module.exports = async (client, msg) => {
         break;
       case "listAllResps":
         resps = getAllResponses.all();
+        respNum = 0;
         otp = ""
         resps.forEach((val, ind, arr) => {
+          respNum++;
           ne = `${client.users.get(val.userid).username} submitted \`\`${val.response}\`\` for response ${val.respNum}, which was counted as ${val.words} word${(val.words != 1) ? "s" : ""}.\n`
           if (ne.length + otp.length > 2000) {
             msg.channel.send(otp);
@@ -139,6 +141,7 @@ module.exports = async (client, msg) => {
           otp += ne;
         });
         msg.channel.send(otp);
+        msg.channel.send(respNum + ' responses have been submitted.');
         break;
       case "listAllContestants":
         conts = getAllContestants.all();
@@ -174,9 +177,12 @@ module.exports = async (client, msg) => {
         break;
       case "listAllVotes":
         votes = getAllVotes.all();
+        voteNum = 0;
         votes.forEach((val, ind, arr) => {
+          voteNum++;
           msg.channel.send(`${client.users.get(val.userid).username} voted on Screen ID ${val.seed} as vote number ${val.voteNum} with vote ${val.vote}.`);
         });
+        msg.channel.send(voteNum + ' votes have been submitted.');
         break;
       case "SQLUpdate":
         try {
